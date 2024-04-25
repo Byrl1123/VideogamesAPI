@@ -12,21 +12,14 @@ import {
 
 export const router = express.Router();
 
-
+router.get('/', (req, res) => {
+    res.send('Videogames Home page');
+});
 router.get('/', getUserProfile);
 router.post('/', [
     check('email', 'El email ya existe. Ingrese uno nuevo').isEmail(),
     check('email').custom(validateEmail),
 
 ], createUserPost);
-
-
-
-
-router.get('/', (req, res) => {
-    res.send('Videogames Home page');
-});
-
-
 
 export default router;

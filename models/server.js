@@ -4,22 +4,18 @@ import cors from 'cors';
 import {router} from '../routes/user.routes.js'
 import { conectarDb } from '../database/config.js';
 
-let port = process.env.PORT;
-const app = express();
-
-export default class Server {
-
+export default class Server{
     constructor(){
         this.port = process.env.PORT || 3000;
         this.app = express();
         this.userPath = '/api/user';
 
-        this.conectarDb();
+        //Se escucha al puerto configurado
+        this.listen();
+        //Se cargan los middlewares, las rutas y la conexión a la base de datos
         this.middlewares();
         this.routes();
-
-        // Llama a la función listen() dentro del constructor
-        this.listen();
+        this.conectarDb();
     }
 
     async conectarDb(){
@@ -27,9 +23,9 @@ export default class Server {
     }
 
     middlewares(){
-         this.app.use( cors() );
-         this.app.use( express.json() );
-         this.app.use( express.static('public') );
+        this.app.use(cors());
+        this.app.use(express.json());
+        this.app.use(express.static('public'));
     }
 
     routes(){
@@ -39,22 +35,7 @@ export default class Server {
     // Define la función listen() dentro de la clase Server
     listen(){
         this.app.listen(this.port, () => {
-            console.log(`The server is running on port ${port}`);
+            console.log(`The server is running on port ${this.port}`);
         });
     }
-
-
-
 }
-
-
-
-
-
-// Listening the port
-
-// app.listen(port, () => {
-//     console.log(`The server is running on port ${port}`);
-// });
-    
-
